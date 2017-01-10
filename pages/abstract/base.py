@@ -55,3 +55,6 @@ class BasePage(object):
 
     def wait_for_text_in_element(self, locator, text, time=10):
         WebDriverWait(self.driver, time).until(EC.text_to_be_present_in_element(locator, text))
+
+    def wait_for_alert_to_appear(self, time=10):
+        WebDriverWait(self.driver, time).until(EC.alert_is_present())

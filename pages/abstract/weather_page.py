@@ -15,6 +15,17 @@ class WeatherPage(BasePage):
         "logout_link": (By.CSS_SELECTOR, 'a[data-from-str=hdr_signout]'),
     }
 
+    def open_main_page(self):
+        from pages.home_page import MainPage
+        self.driver.get("https://weather.com/404")
+        return MainPage(self.driver)
+
+    def open_login_form(self):
+        from pages.login_page import LoginPage
+        self.wait_for_element_to_be_clickable(self.locator_dictionary["login_button"])
+        self.find_element(self.locator_dictionary["login_button"]).click()
+        return LoginPage(self.driver)
+
     def open_register_form(self):
         from pages.create_account_page import CreateAccountPage
         self.wait_for_element_to_be_clickable(self.locator_dictionary["register_button"])
