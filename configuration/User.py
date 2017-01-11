@@ -22,7 +22,7 @@ class User:
         self.city = fake.city()
         self.first_name = fake.first_name()
         self.username = fake.user_name()
-        self.birthdate = fake.date_time_between(start_date="-99y", end_date="-13y").strftime("%m / %d / %Y")
+        self.birthdate = fake.date_time_between(start_date="-36y", end_date="-13y").strftime("%m / %d / %Y")
         self.accept_toc = True
 
         if save_on_disk:
