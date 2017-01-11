@@ -21,7 +21,7 @@ class User:
         self.password = fake.password(special_chars=False)
         self.city = fake.city()
         self.first_name = fake.first_name()
-        self.username = fake.user_name()
+        self.username = self.email
         self.birthdate = fake.date_time_between(start_date="-36y", end_date="-13y").strftime("%m / %d / %Y")
         self.accept_toc = True
 
