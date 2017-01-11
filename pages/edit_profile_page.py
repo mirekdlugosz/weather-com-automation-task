@@ -49,7 +49,7 @@ class EditProfilePage(WeatherPage):
         self.find_element(self.locator_dictionary["delete_account_link"]).click()
         self.wait_for_alert_to_appear()
 
-        self.driver.switch_to_alert().accept()
+        self.driver.switch_to.alert.accept()
 
         self.wait_for_removal_of_element(self.find_element(self.locator_dictionary["my_profile_form"]))
 

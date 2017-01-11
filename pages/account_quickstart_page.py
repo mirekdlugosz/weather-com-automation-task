@@ -26,7 +26,7 @@ class AccountQuickstartPage(WeatherPage):
         self.wait_for_presence_of_element(self.locator_dictionary["home_address_valid"])
         self.find_element(self.locator_dictionary["proceed_button"]).click()
 
-        self.driver.switch_to_default_content()
+        self.driver.switch_to.default_content()
 
         self.wait_for_visibility_of_element(self.find_element(self.locator_dictionary["profile_button"]))
         return MainPage(self.driver)

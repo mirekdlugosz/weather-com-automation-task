@@ -19,7 +19,7 @@ class LoginPage(WeatherPage):
     def login(self, user):
         self.wait_for_presence_of_element(self.locator_dictionary["login_form_iframe"])
 
-        self.driver.switch_to_frame(self.find_element(self.locator_dictionary["login_form_iframe"]))
+        self.driver.switch_to.frame(self.find_element(self.locator_dictionary["login_form_iframe"]))
         self.wait_for_presence_of_element(self.locator_dictionary["email_input"])
         self.find_element(self.locator_dictionary["email_input"]).send_keys(user.email)
         self.find_element(self.locator_dictionary["password_input"]).send_keys(user.password)
@@ -27,9 +27,9 @@ class LoginPage(WeatherPage):
 
         try:
             self.wait_for_presence_of_element(self.locator_dictionary["invalid_login_popup"], 2)
-            self.driver.switch_to_default_content()
+            self.driver.switch_to.default_content()
             return self
         except TimeoutException:
-            self.driver.switch_to_default_content()
+            self.driver.switch_to.default_content()
             self.wait_for_visibility_of_element(self.find_element(self.locator_dictionary["profile_button"]))
             return MainPage(self.driver)
