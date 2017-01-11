@@ -1,4 +1,5 @@
 import os
+import random
 
 from faker import Faker
 
@@ -9,13 +10,19 @@ class User:
         self.email = ''
         self.password = ''
         self.city = ''
+        self.first_name = ''
+        self.username = ''
+        self.birthdate = ''
         self.accept_toc = ''
 
     def new(self, save_on_disk=False):
         fake = Faker()
         self.email = fake.safe_email()
-        self.password = fake.password()
+        self.password = fake.password(special_chars=False)
         self.city = fake.city()
+        self.first_name = fake.first_name()
+        self.username = fake.user_name()
+        self.birthdate = fake.date_time_between(start_date="-99y", end_date="-13y").strftime("%m / %d / %Y")
         self.accept_toc = True
 
         if save_on_disk:
@@ -25,8 +32,15 @@ class User:
 
     def from_file(self, filename=None):
         if filename is None:
-            pass
+            files = [f for f
+                     in os.listdir(self.__user_config_dir)
+                     if os.path.isfile(os.path.join(self.__user_config_dir, f))
+                        and not f.startswith('.')
+                     ]
+            filename = random.choice(files)
+
         file = os.path.join(self.__user_config_dir, filename)
+
         with open(file, 'r', encoding='utf-8') as fh:
             for line in fh:
                 item, value = line.split(" ", 1)
@@ -37,4 +51,5 @@ class User:
         file = os.path.join(self.__user_config_dir, self.email)
         with open(file, 'w', encoding='utf-8') as fh:
             for item, value in vars(self).items():
-                fh.write("{} {}\n".format(item, value))
+                if not item.startswith("_"):
+                    fh.write("{} {}\n".format(item, value))

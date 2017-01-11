@@ -11,7 +11,7 @@ class TestPages(unittest.TestCase):
         driver = webDriver.WebDriver()
         self.driver = driver.get_driver()
 
-    def test_login_to_application(self):
+    def test_create_account(self):
         new_user = User().new(True)
 
         home_page = MainPage(self.driver)
@@ -29,7 +29,17 @@ class TestPages(unittest.TestCase):
     def test_edit_account(self):
         user = User().from_file()
 
-    def test_delete_account(self):
+        home_page = MainPage(self.driver)
+
+        profile_page = home_page.open_login_form().login(user)\
+            .open_edit_profile()\
+            .fill_user_form(user)
+
+        self.assertEqual(profile_page.get_first_name_from_form(), user.first_name)
+        self.assertEqual(profile_page.get_username_from_form(), user.username)
+        self.assertEqual(profile_page.get_birthdate_from_form(), user.birthdate)
+
+    def test_remove_account(self):
         user = User().from_file()
 
         home_page = MainPage(self.driver)
