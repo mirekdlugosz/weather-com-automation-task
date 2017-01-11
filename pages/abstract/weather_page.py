@@ -43,9 +43,11 @@ class WeatherPage(BasePage):
     def logout(self):
         from pages.home_page import MainPage
         profile_button = self.find_element(self.locator_dictionary["profile_button"])
-        self.wait_for_visibility_of_element(profile_button)
+        self.wait_for_element_to_be_clickable(self.locator_dictionary["profile_button"])
         self.hover(profile_button)
-        self.find_element(self.locator_dictionary["logout_link"]).click()
+        logout_button = self.find_element(self.locator_dictionary["logout_link"])
+        self.wait_for_visibility_of_element(logout_button)
+        logout_button.click()
         self.wait_for_removal_of_element(profile_button)
         return MainPage(self.driver)
 
