@@ -43,7 +43,7 @@ Install Python 3 miniconda from <http://conda.pydata.org/miniconda.html>.
 
 Open command prompt (`cmd.exe`) and run following commands:
 
-    conda create -n 'weather-automation'
+    conda create -n weather-automation python=3
     activate weather-automation
     pip install -r requirements.txt
 
