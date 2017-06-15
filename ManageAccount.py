@@ -18,7 +18,8 @@ class TestPages(unittest.TestCase):
 
         home_page = home_page.open_register_form()\
             .fill_create_account_form(new_user)\
-            .quick_setup_account(new_user)
+            .quick_setup_account(new_user)\
+            .add_location(new_user)
 
         self.assertTrue(home_page.user_is_logged_in())
 
