@@ -35,17 +35,23 @@ class User:
             files = [f for f
                      in os.listdir(self.__user_config_dir)
                      if os.path.isfile(os.path.join(self.__user_config_dir, f))
-                        and not f.startswith('.')
+                     and not f.startswith('.')
                      ]
             filename = random.choice(files)
 
-        file = os.path.join(self.__user_config_dir, filename)
+        self.__file = os.path.join(self.__user_config_dir, filename)
 
-        with open(file, 'r', encoding='utf-8') as fh:
+        with open(self.__file, 'r', encoding='utf-8') as fh:
             for line in fh:
                 item, value = line.split(" ", 1)
                 setattr(self, item, value.strip())
         return self
+
+    def delete_file(self):
+        try:
+            os.remove(self.__file)
+        except (OSError, AttributeError) as e:
+            pass
 
     def __save_to_file(self):
         file = os.path.join(self.__user_config_dir, self.email)

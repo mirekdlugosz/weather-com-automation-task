@@ -46,7 +46,7 @@ class TestPages(unittest.TestCase):
         home_page = MainPage(self.driver)
 
         profile_page = home_page.open_login_form().login(user).open_edit_profile()
-        profile_page.delete_account()
+        profile_page.delete_account(user)
 
         login_page = profile_page.open_main_page().open_login_form().login(user)
 
@@ -54,6 +54,7 @@ class TestPages(unittest.TestCase):
 
     def tearDown(self):
         self.driver.quit()
+
 
 if __name__ == '__main__':
     unittest.main()

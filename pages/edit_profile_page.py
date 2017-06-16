@@ -52,7 +52,7 @@ class EditProfilePage(WeatherPage):
         year = Select(self.find_element(self.locator_dictionary["birthdate_year_select"])).first_selected_option.get_attribute("value")
         return " / ".join([month, day, year])
 
-    def delete_account(self):
+    def delete_account(self, user):
         self.__wait_for_form()
 
         self.find_element(self.locator_dictionary["delete_account_link"]).click()
@@ -61,5 +61,6 @@ class EditProfilePage(WeatherPage):
         self.driver.switch_to.alert.accept()
 
         self.wait_for_removal_of_element(self.find_element(self.locator_dictionary["my_profile_form"]))
+        user.delete_file()
 
         return MainPage(self.driver)
