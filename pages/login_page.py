@@ -26,5 +26,5 @@ class LoginPage(WeatherPage):
             self.wait_for_presence_of_element(self.locator_dictionary["invalid_login_popup"], 2)
             return self
         except TimeoutException:
-            self.wait_for_visibility_of_element(self.find_element(self.locator_dictionary["profile_button"]))
+            self.wait_for_presence_of_element(self.locator_dictionary["profile_button"])
             return MainPage(self.driver)
