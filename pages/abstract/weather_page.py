@@ -40,15 +40,23 @@ class WeatherPage(BasePage):
         return MainPage(self.driver)
 
     def open_login_form(self):
+        '''
+        Yes, this is extremely bad practice. Unfortunately, these links:
+        1. Are actually not links, but buttons
+        2. That fire JavaScript function on click, which means they don't
+           have href attribute or similar, which means we can't obtain targets
+        3. Redirect to target pages, except when they randomly decide to
+           open target page in new frame.
+        It is sad state of affairs when hardcoding URLs is more robust
+        than clicking on UI.
+        '''
         from pages.login_page import LoginPage
-        self.wait_for_element_to_be_clickable(self.locator_dictionary["login_button"])
-        self.find_element(self.locator_dictionary["login_button"]).click()
+        self.driver.get("https://weather.com/profile/login")
         return LoginPage(self.driver)
 
     def open_register_form(self):
         from pages.create_account_page import CreateAccountPage
-        self.wait_for_element_to_be_clickable(self.locator_dictionary["register_button"])
-        self.find_element(self.locator_dictionary["register_button"]).click()
+        self.driver.get("https://weather.com/profile/signup")
         return CreateAccountPage(self.driver)
 
     def open_edit_profile(self):
