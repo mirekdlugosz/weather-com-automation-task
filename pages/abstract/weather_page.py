@@ -1,4 +1,4 @@
-from selenium.common.exceptions import WebDriverException
+from selenium.common.exceptions import TimeoutException, NoSuchElementException
 from selenium.webdriver.common.by import By
 
 from pages.abstract.base import BasePage
@@ -10,10 +10,29 @@ class WeatherPage(BasePage):
         "buttons_panel": (By.CSS_SELECTOR, '.main-nav-desktop'),
         "login_button": (By.CSS_SELECTOR, '.user-item button.user-login'),
         "register_button": (By.CSS_SELECTOR, '.user-item button.user-signup'),
-        "profile_button": (By.CSS_SELECTOR, '.user-item.dropdown > a'),
+        "profile_button": (By.CSS_SELECTOR, '.main-nav__menulink span.icon-user'),
+        "old_profile_button": (By.CSS_SELECTOR, '.user-item.dropdown > a'),
         "edit_profile_link": (By.CSS_SELECTOR, 'a[data-from-str=hdr_myprofile]'),
         "logout_link": (By.CSS_SELECTOR, 'a[data-from-str=hdr_signout]'),
     }
+
+    def __get_profile_element(self):
+        for button_name in ("old_profile_button", "profile_button"):
+            try:
+                profile_button = self.locator_dictionary[button_name]
+                self.wait_for_element_to_be_clickable(profile_button)
+                return self.find_element(profile_button)
+            except (NoSuchElementException, TimeoutException) as e:
+                continue
+        return None
+
+    def __click_link_on_profile_menu(self, target_locator):
+        profile_button = self.__get_profile_element()
+        self.hover(profile_button)
+        target_button = self.find_element(target_locator)
+        self.wait_for_visibility_of_element(target_button)
+        target_button.click()
+        self.wait_for_removal_of_element(profile_button)
 
     def open_main_page(self):
         from pages.home_page import MainPage
@@ -34,22 +53,16 @@ class WeatherPage(BasePage):
 
     def open_edit_profile(self):
         from pages.edit_profile_page import EditProfilePage
-        profile_button = self.find_element(self.locator_dictionary["profile_button"])
-        self.wait_for_visibility_of_element(profile_button)
-        self.hover(profile_button)
-        self.find_element(self.locator_dictionary["edit_profile_link"]).click()
+        self.__click_link_on_profile_menu(self.locator_dictionary["edit_profile_link"])
         return EditProfilePage(self.driver)
 
     def logout(self):
         from pages.home_page import MainPage
-        profile_button = self.find_element(self.locator_dictionary["profile_button"])
-        self.wait_for_element_to_be_clickable(self.locator_dictionary["profile_button"])
-        self.hover(profile_button)
-        logout_button = self.find_element(self.locator_dictionary["logout_link"])
-        self.wait_for_visibility_of_element(logout_button)
-        logout_button.click()
-        self.wait_for_removal_of_element(profile_button)
+        self.__click_link_on_profile_menu(self.locator_dictionary["logout_link"])
         return MainPage(self.driver)
 
     def user_is_logged_in(self):
-        return self.find_element(self.locator_dictionary["profile_button"]).is_displayed()
+        profile_button = self.__get_profile_element()
+        if not profile_button:
+            return False
+        return profile_button.is_displayed()

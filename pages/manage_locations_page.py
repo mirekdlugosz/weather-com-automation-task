@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from selenium.webdriver.common.by import By
+from selenium.common.exceptions import TimeoutException
 
 from pages.abstract.weather_page import WeatherPage
 from pages.home_page import MainPage
@@ -20,7 +21,11 @@ class ManageLocationsPage(WeatherPage):
         self.wait_for_presence_of_element(self.locator_dictionary["home_address_input"])
         self.find_element(self.locator_dictionary["home_address_input"]).send_keys(user.city)
 
-        self.wait_for_presence_of_element(self.locator_dictionary["address_autocomplete_item"])
+        try:
+            self.wait_for_presence_of_element(self.locator_dictionary["address_autocomplete_item"])
+        except TimeoutException:
+            print("DEBUG: Could not find any location for {}".format(user.city))
+            return False
         self.find_element(self.locator_dictionary["address_autocomplete_item"]).click()
 
         self.find_element(self.locator_dictionary["location_nickname_input"]).send_keys(user.city)
