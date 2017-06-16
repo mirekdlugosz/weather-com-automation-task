@@ -6,9 +6,9 @@ from pages.home_page import MainPage
 
 
 class LoginPage(WeatherPage):
-
     locator_dictionary = WeatherPage.locator_dictionary
     locator_dictionary.update({
+        "loaded_form_indicator": (By.CSS_SELECTOR, '#loginSignUpForm[novalidate=true]'),
         "email_input": (By.CSS_SELECTOR, 'input[name=id]'),
         "password_input": (By.CSS_SELECTOR, 'input[name=token]'),
         "log_in_button": (By.CSS_SELECTOR, '#loginSignUpForm button[type=submit]'),
@@ -16,7 +16,8 @@ class LoginPage(WeatherPage):
     })
 
     def login(self, user):
-        self.wait_for_presence_of_element(self.locator_dictionary["email_input"])
+        # See comment in pages/create_account_page.py
+        self.wait_for_presence_of_element(self.locator_dictionary["loaded_form_indicator"])
         self.find_element(self.locator_dictionary["email_input"]).send_keys(user.email)
         self.find_element(self.locator_dictionary["password_input"]).send_keys(user.password)
         self.find_element(self.locator_dictionary["log_in_button"]).click()
