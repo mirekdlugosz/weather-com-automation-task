@@ -14,4 +14,4 @@ class AccountQuickstartPage(WeatherPage):
     def quick_setup_account(self, user):
         self.wait_for_presence_of_element(self.locator_dictionary["manage_locations_link"])
         self.find_element(self.locator_dictionary["manage_locations_link"]).click()
-        return ManageLocationsPage(self.driver)
+        return ManageLocationsPage()

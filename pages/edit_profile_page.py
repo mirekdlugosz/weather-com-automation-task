@@ -63,4 +63,4 @@ class EditProfilePage(WeatherPage):
         self.wait_for_removal_of_element(self.find_element(self.locator_dictionary["my_profile_form"]))
         user.delete_file()
 
-        return MainPage(self.driver)
+        return MainPage()

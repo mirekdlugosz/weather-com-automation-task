@@ -20,7 +20,7 @@ class WeatherPage(BasePage):
         for button_name in ("old_profile_button", "profile_button"):
             try:
                 profile_button = self.locator_dictionary[button_name]
-                self.wait_for_element_to_be_clickable(profile_button)
+                self.wait_for_element_to_be_clickable(profile_button, 2)
                 return self.find_element(profile_button)
             except (NoSuchElementException, TimeoutException) as e:
                 continue
@@ -37,7 +37,7 @@ class WeatherPage(BasePage):
     def open_main_page(self):
         from pages.home_page import MainPage
         self.driver.get("https://weather.com/404")
-        return MainPage(self.driver)
+        return MainPage()
 
     def open_login_form(self):
         '''
@@ -52,22 +52,22 @@ class WeatherPage(BasePage):
         '''
         from pages.login_page import LoginPage
         self.driver.get("https://weather.com/profile/login")
-        return LoginPage(self.driver)
+        return LoginPage()
 
     def open_register_form(self):
         from pages.create_account_page import CreateAccountPage
         self.driver.get("https://weather.com/profile/signup")
-        return CreateAccountPage(self.driver)
+        return CreateAccountPage()
 
     def open_edit_profile(self):
         from pages.edit_profile_page import EditProfilePage
         self.__click_link_on_profile_menu(self.locator_dictionary["edit_profile_link"])
-        return EditProfilePage(self.driver)
+        return EditProfilePage()
 
     def logout(self):
         from pages.home_page import MainPage
         self.__click_link_on_profile_menu(self.locator_dictionary["logout_link"])
-        return MainPage(self.driver)
+        return MainPage()
 
     def user_is_logged_in(self):
         profile_button = self.__get_profile_element()

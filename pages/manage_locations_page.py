@@ -36,4 +36,4 @@ class ManageLocationsPage(WeatherPage):
 
         self.open_main_page()
 
-        return MainPage(self.driver)
+        return MainPage()

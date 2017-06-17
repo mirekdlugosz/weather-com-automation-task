@@ -28,4 +28,4 @@ class CreateAccountPage(WeatherPage):
         if user.accept_toc:
             self.find_element(self.locator_dictionary["toc_checkbox_label"]).click()
         self.find_element(self.locator_dictionary["signup_button"]).click()
-        return AccountQuickstartPage(self.driver)
+        return AccountQuickstartPage()

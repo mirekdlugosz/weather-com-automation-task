@@ -8,13 +8,12 @@ from pages.login_page import LoginPage
 
 class TestPages(unittest.TestCase):
     def setUp(self):
-        driver = webDriver.WebDriver()
-        self.driver = driver.get_driver()
+        pass
 
     def test_create_account(self):
         new_user = User().new(True)
 
-        home_page = MainPage(self.driver)
+        home_page = MainPage()
 
         home_page = home_page.open_register_form()\
             .fill_create_account_form(new_user)\
@@ -30,7 +29,7 @@ class TestPages(unittest.TestCase):
     def test_edit_account(self):
         user = User().from_file()
 
-        home_page = MainPage(self.driver)
+        home_page = MainPage()
 
         profile_page = home_page.open_login_form().login(user)\
             .open_edit_profile()\
@@ -43,7 +42,7 @@ class TestPages(unittest.TestCase):
     def test_remove_account(self):
         user = User().from_file()
 
-        home_page = MainPage(self.driver)
+        home_page = MainPage()
 
         profile_page = home_page.open_login_form().login(user).open_edit_profile()
         profile_page.delete_account(user)
@@ -53,7 +52,7 @@ class TestPages(unittest.TestCase):
         self.assertIsInstance(login_page, LoginPage)
 
     def tearDown(self):
-        self.driver.quit()
+        webDriver.WebDriver.close_driver()
 
 
 if __name__ == '__main__':

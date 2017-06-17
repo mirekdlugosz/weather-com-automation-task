@@ -1,12 +1,14 @@
+from configuration import webDriver
+
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.common.exceptions import NoSuchElementException
 
 
-class BasePage(object):
-    def __init__(self, driver):
-        self.driver = driver
+class BasePage():
+    def __init__(self):
+        self.driver = webDriver.WebDriver.get_driver()
         self.timeout = 30
 
     def find_element(self, locator):
